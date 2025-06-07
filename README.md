@@ -52,3 +52,31 @@ export default tseslint.config({
   },
 })
 ```
+
+Dependencias principales:
+
+@tailwindcss/vite
+chart.js
+leaflet
+react
+react-dom
+react-leaflet
+react-router-dom
+tailwindcss
+Dependencias de desarrollo:
+
+@eslint/js
+@types/chart.js
+@types/leaflet
+@types/react
+@types/react-dom
+@types/react-router-dom
+@vitejs/plugin-react
+eslint
+eslint-plugin-react-hooks
+eslint-plugin-react-refresh
+globals
+typescript
+typescript-eslint
+vite
+
