@@ -1,65 +1,78 @@
 // src/components/Map.tsx
-import React, { useEffect } from 'react';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+import React, { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
 import type { Estacion } from '../types'
 
-const Map: React.FC = () => {
-  useEffect(() => {
-    const map = L.map('map').setView([-12.0464, -77.0428], 11);
+// Esto corrige la ruta de los iconos por defecto de Leaflet
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png'
+import iconUrl from 'leaflet/dist/images/marker-icon.png'
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png'
+delete (L.Icon.Default.prototype as any)._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl,
+  iconUrl,
+  shadowUrl,
+})
 
+const Map: React.FC = () => {
+  const navigate = useNavigate()
+  const mapRef = useRef<L.Map | null>(null)
+
+  useEffect(() => {
+    // 1) Protejo la ruta: si no hay token, vuelvo al login
+    const token = localStorage.getItem('jwtToken')
+    if (!token) {
+      navigate('/', { replace: true })
+      return
+    }
+
+    // 2) Inicializo el mapa
+    mapRef.current = L.map('map').setView([-12.0464, -77.0428], 11)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
-    }).addTo(map);
+    }).addTo(mapRef.current)
 
-    const estaciones: Estacion[] = [
-    {
-      id: 1,
-      nombre: 'Estación Miraflores',
-      ubicacion: 'Miraflores',     // <— ahora está “ubicacion”
-      lat: -12.1211,
-      lng: -77.0301,
-    },
-    {
-      id: 2,
-      nombre: 'Estación San Isidro',
-      ubicacion: 'San Isidro',
-      lat: -12.0987,
-      lng: -77.0365,
-    },
-    {
-      id: 3,
-      nombre: 'Estación La Molina',
-      ubicacion: 'La Molina',
-      lat: -12.0850,
-      lng: -76.9350,
-    },
-    {
-      id: 4,
-      nombre: 'Estación Surco',
-      ubicacion: 'Surco',
-      lat: -12.1532,
-      lng: -76.9716,
-    },
-  ]
+    // 3) Traigo las estaciones del backend
+    fetch('http://localhost:8081/api/estaciones', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        if (res.status === 401) {
+          // token inválido o expirado
+          localStorage.removeItem('jwtToken')
+          navigate('/', { replace: true })
+          throw new Error('No autorizado')
+        }
+        if (!res.ok) throw new Error(`HTTP ${res.status}`)
+        return res.json() as Promise<Estacion[]>
+      })
+      .then(data => {
+        data.forEach(est => {
+          L.marker([est.latitud, est.longitud])
+            .addTo(mapRef.current!)
+            .bindPopup(
+              `<strong>${est.nombre}</strong><br>` +
+              `<a href="/usuarioSesion2?nombre=${encodeURIComponent(est.nombre)}">Ver datos</a>`
+            )
+        })
+      })
+      .catch(err => {
+        console.error('Error al cargar estaciones:', err)
+        // aquí podrías mostrar un toast al usuario
+      })
 
-    estaciones.forEach(est => {
-      L.marker([est.lat, est.lng])
-        .addTo(map)
-        .bindPopup(
-          `<strong>${est.nombre}</strong><br>
-           <a href="usuarioSesion2?nombre=${encodeURIComponent(
-             est.nombre
-           )}">Ver datos</a>`
-        );  
-    });
-
+    // 4) Cleanup al desmontar
     return () => {
-      map.remove();
-    };
-  }, []);
+      mapRef.current?.remove()
+    }
+  }, [navigate])
 
-  return <div id="map" className="flex-1 h-full" />;
-};
+  // Asegúrate de que el contenedor tenga tamaño
+  return <div id="map" className="w-full h-full" />
+}
 
-export default Map;
+export default Map

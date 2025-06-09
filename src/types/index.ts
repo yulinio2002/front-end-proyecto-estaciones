@@ -1,13 +1,18 @@
 // src/types/index.ts
 export interface Usuario {
-  id: number
-  nombre: string
+  idPersona: number;
+  dni: string;
+  nombre: string;
+  apellidos: string;
+  celular: string;
+  sexo: string;
 }
 
 export interface Estacion {
-  id: number
-  nombre: string
-  ubicacion: string
-  lat: number
-  lng: number
+ idEstacion: number;
+  nombre: string;
+  latitud: number;
+  longitud: number;
+  telefono: string | null;
+  descripcion: string | null;
 }

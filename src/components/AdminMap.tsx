@@ -13,12 +13,12 @@ const Admin: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('usuarios');
 
   // Datos de ejemplo para las estaciones (pueden venir de una llamada a la API más adelante)
-  const estaciones: Estacion[] = [
-    { id: 1, nombre: 'Estación Miraflores', ubicacion: 'Miraflores', lat: -12.1211, lng: -77.0301 },
-    { id: 2, nombre: 'Estación San Isidro', ubicacion: 'San Isidro', lat: -12.0987, lng: -77.0365 },
-    { id: 3, nombre: 'Estación La Molina', ubicacion: 'La Molina', lat: -12.0850, lng: -76.9350 },
-    { id: 4, nombre: 'Estación Surco', ubicacion: 'Surco', lat: -12.1532, lng: -76.9716 },
-  ];
+  // const estaciones: Estacion[] = [
+  //   { id: 1, nombre: 'Estación Miraflores', ubicacion: 'Miraflores', lat: -12.1211, lng: -77.0301 },
+  //   { id: 2, nombre: 'Estación San Isidro', ubicacion: 'San Isidro', lat: -12.0987, lng: -77.0365 },
+  //   { id: 3, nombre: 'Estación La Molina', ubicacion: 'La Molina', lat: -12.0850, lng: -76.9350 },
+  //   { id: 4, nombre: 'Estación Surco', ubicacion: 'Surco', lat: -12.1532, lng: -76.9716 },
+  // ];
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
@@ -75,7 +75,10 @@ const Admin: React.FC = () => {
 
         {/* 3) Mapa de estaciones (siempre aparece debajo de las pestañas) */}
         {/* <AdminMap estaciones={estaciones} /> */}
+        <h2 className="text-xl font-semibold mb-4">Mapa de Estaciones</h2>
+      <div className="h-96 border rounded-lg overflow-hidden">
             <MapView/>
+      </div>
       </div>
     </div>
   );
