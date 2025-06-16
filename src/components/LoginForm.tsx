@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { getCurrentUser } from '../services/auth';
 interface LoginData {
     email: string;
     password: string;
@@ -63,7 +63,13 @@ const LoginForm: React.FC = () => {
             localStorage.setItem('jwtToken', token);
 
             // 2. Redirigir a la ruta privada (por ejemplo "/dashboard")
+            // navigate('/usuarioSesion1');
+            const user = await getCurrentUser();
+        if (user.rol === 'ADMIN') {
+            navigate('/admin');
+        } else {
             navigate('/usuarioSesion1');
+        }
         } catch (err: any) {
             setError(err.message);
         } finally {

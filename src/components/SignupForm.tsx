@@ -96,7 +96,7 @@ const SignupForm: React.FC = () => {
         sexo: 'M',
       });
       setTimeout(() => {
-        window.location.href = '/login'; // Redirigir a la página de login
+        window.location.href = '/'; // Redirigir a la página de login
       }, 2000); // Esperar 2 segundos antes de redirigir
     } catch (err: any) {
       setError(err.message);
@@ -264,7 +264,7 @@ const SignupForm: React.FC = () => {
         {(
           <div className="text-center mt-4">
             <a
-              href="/login"
+              href="/"
               className="text-blue-600 hover:underline font-medium"
             >
               Ir a Login

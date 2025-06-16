@@ -4,21 +4,23 @@ import Header from './Header';
 import UsersTab from './UsersTab';
 import AlertsTab from './AlertsTab';
 import StationsTab from './StationsTab';
+import ParametrosTab from './ParametrosTab';
+import NodosTab from './NodosTab';
 import MapView from './MapView';
 import type { Estacion } from '../types';
 
-type TabKey = 'usuarios' | 'alertas' | 'estaciones';
+type TabKey = 'usuarios' | 'alertas' | 'estaciones'| 'parametros'| 'nodos';
 
 const Admin: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabKey>('usuarios');
 
   // Datos de ejemplo para las estaciones (pueden venir de una llamada a la API más adelante)
-  const estaciones: Estacion[] = [
-    { id: 1, nombre: 'Estación Miraflores', ubicacion: 'Miraflores', lat: -12.1211, lng: -77.0301 },
-    { id: 2, nombre: 'Estación San Isidro', ubicacion: 'San Isidro', lat: -12.0987, lng: -77.0365 },
-    { id: 3, nombre: 'Estación La Molina', ubicacion: 'La Molina', lat: -12.0850, lng: -76.9350 },
-    { id: 4, nombre: 'Estación Surco', ubicacion: 'Surco', lat: -12.1532, lng: -76.9716 },
-  ];
+  // const estaciones: Estacion[] = [
+  //   { id: 1, nombre: 'Estación Miraflores', ubicacion: 'Miraflores', lat: -12.1211, lng: -77.0301 },
+  //   { id: 2, nombre: 'Estación San Isidro', ubicacion: 'San Isidro', lat: -12.0987, lng: -77.0365 },
+  //   { id: 3, nombre: 'Estación La Molina', ubicacion: 'La Molina', lat: -12.0850, lng: -76.9350 },
+  //   { id: 4, nombre: 'Estación Surco', ubicacion: 'Surco', lat: -12.1532, lng: -76.9716 },
+  // ];
 
   return (
     <div className="h-screen flex flex-col bg-gray-50">
@@ -63,6 +65,28 @@ const Admin: React.FC = () => {
         >
           Estaciones
         </button>
+        <button
+          onClick={() => setActiveTab('parametros')}
+          className={`pb-2 text-sm font-medium ${
+            activeTab === 'parametros'
+          ? 'border-b-2 border-blue-600 text-blue-600'
+          : 'text-gray-600 hover:text-gray-800'
+          }`}
+          type="button"
+        >
+          Parámetros
+        </button>
+        <button
+          onClick={() => setActiveTab('nodos')}
+          className={`pb-2 text-sm font-medium ${
+            activeTab === 'nodos'
+          ? 'border-b-2 border-blue-600 text-blue-600'
+          : 'text-gray-600 hover:text-gray-800'
+          }`}
+          type="button"
+        >
+          Nodos
+        </button>
           </nav>
         </div>
 
@@ -71,11 +95,16 @@ const Admin: React.FC = () => {
           {activeTab === 'usuarios' && <UsersTab />}
           {activeTab === 'alertas' && <AlertsTab />}
           {activeTab === 'estaciones' && <StationsTab />}
+          {activeTab === 'parametros' && <ParametrosTab />}
+          {activeTab === 'nodos' && <NodosTab />}
         </div>
 
         {/* 3) Mapa de estaciones (siempre aparece debajo de las pestañas) */}
         {/* <AdminMap estaciones={estaciones} /> */}
+        <h2 className="text-xl font-semibold mb-4">Mapa de Estaciones</h2>
+      <div className="h-96 border rounded-lg overflow-hidden">
             <MapView/>
+      </div>
       </div>
     </div>
   );
