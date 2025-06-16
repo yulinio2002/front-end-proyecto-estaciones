@@ -100,6 +100,7 @@ const StationsTab: React.FC = () => {
           <table className="min-w-full border-collapse border border-gray-300">
             <thead className="bg-gray-100">
               <tr>
+                {/* <th className="border px-4 py-2">ID Estación</th> */}
                 <th className="border px-4 py-2">Nombre</th>
                 <th className="border px-4 py-2">Latitud</th>
                 <th className="border px-4 py-2">Longitud</th>
@@ -109,6 +110,7 @@ const StationsTab: React.FC = () => {
             <tbody>
               {estaciones.map(est => (
                 <tr key={est.idEstacion} className="even:bg-gray-50">
+                  {/* <td className="border px-4 py-2">{est.idEstacion}</td> */}
                   <td className="border px-4 py-2">{est.nombre}</td>
                   <td className="border px-4 py-2">{est.latitud}</td>
                   <td className="border px-4 py-2">{est.longitud}</td>

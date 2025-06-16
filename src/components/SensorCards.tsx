@@ -3,14 +3,14 @@ import React from 'react';
 type SensorValues = {
   presion: string;
   temperatura: string;
-  viento: string;
+  radiacion: string;
   humedad: string;
 };
 
 const SensorCards: React.FC<SensorValues> = ({
   presion,
   temperatura,
-  viento,
+  radiacion,
   humedad,
 }) => {
   return (
@@ -24,8 +24,8 @@ const SensorCards: React.FC<SensorValues> = ({
         <strong className="text-2xl">{temperatura}</strong>
       </div>
       <div className="border p-4 rounded shadow">
-        <div className="uppercase font-medium">velocidad del aire</div>
-        <strong className="text-2xl">{viento}</strong>
+        <div className="uppercase font-medium">radiacion</div>
+        <strong className="text-2xl">{radiacion}</strong>
       </div>
       <div className="border p-4 rounded shadow">
         <div className="uppercase font-medium">humedad</div>

@@ -1,13 +1,34 @@
 import React, { useEffect, useState } from 'react';
-
-interface Estacion {
-  nombre: string;
-  // agrega otros campos si los necesitas
-}
+import { listNodos } from '../services/nodos';
+import { useNavigate } from 'react-router-dom';
+import type { Estacion } from '../types'
+// interface Estacion {
+//   nombre: string;
+//   // agrega otros campos si los necesitas
+// }
 
 const Sidebar: React.FC = () => {
   const [estaciones, setEstaciones] = useState<Estacion[]>([]);
   const token = localStorage.getItem('jwtToken');
+  const navigate = useNavigate();
+
+  const handleVerDatos = async (estacion: Estacion) => {
+    try {
+      // Obtiene todos los nodos
+      const nodos = await listNodos()
+      // Busca el nodo asociado a la estación seleccionada
+      const nodo = nodos.find(n => n.idEstacion === estacion.idEstacion)
+      if (!nodo) {
+        alert('No hay nodo asociado a esta estación')
+        return
+      }
+      // Navega a SecondView con el idNodo y nombre de la estación
+      navigate(`/usuarioSesion2?nombre=${encodeURIComponent(estacion.nombre)}&nodo=${nodo.idNodo}`)
+    } catch (err) {
+      alert('Error al buscar nodo')
+      console.error(err)
+    }
+  }
 
   useEffect(() => {
     fetch('http://localhost:8081/api/estaciones', {
@@ -35,12 +56,12 @@ const Sidebar: React.FC = () => {
       <div>
         {estaciones.map(est => (
           <div className="mb-2" key={est.nombre}>
-            <a
-              href={`/usuarioSesion2?nombre=${encodeURIComponent(est.nombre)}`}
+            <button
+              onClick={() => handleVerDatos(est)}
               className="text-decoration-none"
             >
               {est.nombre}
-            </a>
+            </button>
           </div>
         ))}
       </div>

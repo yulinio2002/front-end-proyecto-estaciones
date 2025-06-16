@@ -1,18 +1,31 @@
 import React from 'react';
 
-interface Props {
+interface ControlsPanelProps {
+  // variable: string;
+  // setVariable: (v: string) => void;
+  // desde: string;
+  // setDesde: (v: string) => void;
+  // hasta: string;
+  // setHasta: (v: string) => void;
+  // tipo: string;
+  // setTipo: (v: string) => void;
+  // onDownload: () => void;
+  // onFilter: () => void
   variable: string;
   setVariable: (v: string) => void;
   desde: string;
   setDesde: (v: string) => void;
   hasta: string;
   setHasta: (v: string) => void;
-  tipo: string;
-  setTipo: (v: string) => void;
+  tipo: 'line' | 'bar';
+  setTipo: (v: 'line' | 'bar') => void;
   onDownload: () => void;
+  onFilter: () => void;
+  onDescargar: () => void;
+  onDescargarExcel: () => void
 }
 
-const ControlsPanel: React.FC<Props> = ({
+const ControlsPanel: React.FC<ControlsPanelProps> = ({
   variable,
   setVariable,
   desde,
@@ -22,6 +35,9 @@ const ControlsPanel: React.FC<Props> = ({
   tipo,
   setTipo,
   onDownload,
+  onFilter,
+  onDescargar,
+  onDescargarExcel
 }) => {
   return (
     <div className="flex flex-wrap gap-4 items-end mb-6">
@@ -34,10 +50,11 @@ const ControlsPanel: React.FC<Props> = ({
           value={variable}
           onChange={(e) => setVariable(e.target.value)}
           className="border rounded p-2 w-48"
-        >
+        > 
+          <option>Todas</option>
           <option>Presión (hPa)</option>
           <option>Temperatura (°C)</option>
-          <option>Velocidad del Aire (m/s)</option>
+          <option>Radiacion (W/m²)</option>
           <option>Humedad (%)</option>
         </select>
       </div>
@@ -72,7 +89,7 @@ const ControlsPanel: React.FC<Props> = ({
         <select
           id="tipo"
           value={tipo}
-          onChange={(e) => setTipo(e.target.value)}
+          onChange={(e) => setTipo(e.target.value as 'line' | 'bar')}
           className="border rounded p-2 w-36"
         >
           <option value="line">Línea</option>
@@ -80,10 +97,28 @@ const ControlsPanel: React.FC<Props> = ({
         </select>
       </div>
       <button
+        onClick={onFilter}
+        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      >
+        Filtrar
+      </button>
+      <button
         onClick={onDownload}
         className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
       >
-        Descargar Gráfico
+        Export Gráfico
+      </button>
+      <button
+        onClick={onDescargar}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+      >
+        Export CSV
+      </button>
+      <button
+        onClick={onDescargarExcel}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+      >
+        Export Excel
       </button>
     </div>
   );

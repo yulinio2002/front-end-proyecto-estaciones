@@ -1,6 +1,7 @@
 // src/components/Map.tsx
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { listNodos } from '../services/nodos'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import type { Estacion } from '../types'
@@ -28,6 +29,24 @@ const Map: React.FC = () => {
       return
     }
 
+  const handleVerDatos = async (estacion: Estacion) => {
+  try {
+    // Obtiene todos los nodos
+    const nodos = await listNodos()
+    // Busca el nodo asociado a la estación seleccionada
+    const nodo = nodos.find(n => n.idEstacion === estacion.idEstacion)
+    if (!nodo) {
+      alert('No hay nodo asociado a esta estación')
+      return
+    }
+    // Navega a SecondView con el idNodo y nombre de la estación
+    navigate(`/usuarioSesion2?nombre=${encodeURIComponent(estacion.nombre)}&nodo=${nodo.idNodo}`)
+  } catch (err) {
+    alert('Error al buscar nodo')
+    console.error(err)
+  }
+}
+
     // 2) Inicializo el mapa
     mapRef.current = L.map('map').setView([-12.0464, -77.0428], 11)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -52,12 +71,14 @@ const Map: React.FC = () => {
       })
       .then(data => {
         data.forEach(est => {
-          L.marker([est.latitud, est.longitud])
-            .addTo(mapRef.current!)
-            .bindPopup(
-              `<strong>${est.nombre}</strong><br>` +
-              `<a href="/usuarioSesion2?nombre=${encodeURIComponent(est.nombre)}">Ver datos</a>`
-            )
+            const marker = L.marker([est.latitud, est.longitud]).addTo(mapRef.current!)
+            const popupContent = document.createElement('div')
+            popupContent.innerHTML = `<strong>${est.nombre}</strong><br>`
+            const button = document.createElement('button')
+            button.textContent = 'Ver datos'
+            button.onclick = () => handleVerDatos(est)
+            popupContent.appendChild(button)
+            marker.bindPopup(popupContent)
         })
       })
       .catch(err => {

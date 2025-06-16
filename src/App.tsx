@@ -18,7 +18,7 @@ const App: React.FC = () => {
         <Route
           path="/usuarioSesion1"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['CLIENTE', 'ADMIN']}>
               <FirstView />
             </PrivateRoute>
           }
@@ -26,7 +26,7 @@ const App: React.FC = () => {
         <Route
           path="/usuarioSesion2"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['CLIENTE', 'ADMIN']}>
               <SecondView />
             </PrivateRoute>
           }
@@ -34,7 +34,7 @@ const App: React.FC = () => {
         <Route
           path="/admin"
           element={
-            <PrivateRoute>
+            <PrivateRoute allowedRoles={['ADMIN']}>
               <AdminMap />
             </PrivateRoute>
           }
