@@ -1,10 +1,30 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
+import apiClient from './apiClient';
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface SignupPayload extends LoginPayload {
+  rol: number;
+  dni: string;
+  nombre: string;
+  apellidos: string;
+  celular: string;
+  sexo: 'M' | 'F';
+}
+
+export async function login(data: LoginPayload) {
+  const res = await apiClient.post<{ token: string }>('/auth/login', data);
+  return res.data;
+}
+
+export async function signup(data: SignupPayload) {
+  const res = await apiClient.post('/auth/signup', data);
+  return res.data;
+}
 
 export async function getCurrentUser() {
-  const token = localStorage.getItem('jwtToken');
-  const res = await fetch(`${API_BASE}/auth/me`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  if (!res.ok) throw new Error('No autorizado');
-  return res.json();
+  const res = await apiClient.get('/auth/me');
+  return res.data;
 }

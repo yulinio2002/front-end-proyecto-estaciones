@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser } from '../services/auth';
+import { getCurrentUser, login } from '../services/auth';
 interface LoginData {
     email: string;
     password: string;
@@ -31,32 +31,7 @@ const LoginForm: React.FC = () => {
         setLoading(true);
 
         try {
-            const resp = await fetch('http://localhost:8081/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
-
-            if (!resp.ok) {
-                let errorMessage = 'Correo o contraseña incorrectos';
-                try {
-                    const errorData = await resp.json();
-                    errorMessage = errorData.message || errorMessage;
-                } catch {
-                    // Si no es JSON, intenta obtener el texto
-                    try {
-                        errorMessage = await resp.text() || errorMessage;
-                    } catch {
-                        // Ignorar si tampoco se puede obtener el texto
-                    }
-                }
-                throw new Error(errorMessage);
-            }
-
-            // Asumimos que la respuesta es { token: string, ... }
-            const data = await resp.json();
-
-            const token: string = data.token;
+            const { token } = await login(formData);
             if (!token) throw new Error('No se recibió token del servidor');
 
             // 1. Guardar el token en localStorage (o sessionStorage según tu preferencia)

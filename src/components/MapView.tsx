@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { listNodos } from '../services/nodos'
+import { listEstaciones } from '../services/estaciones'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 import type { Estacion } from '../types'
@@ -54,21 +55,7 @@ const Map: React.FC = () => {
     }).addTo(mapRef.current)
 
     // 3) Traigo las estaciones del backend
-    fetch('http://localhost:8081/api/estaciones', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        if (res.status === 401) {
-          // token inválido o expirado
-          localStorage.removeItem('jwtToken')
-          navigate('/', { replace: true })
-          throw new Error('No autorizado')
-        }
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json() as Promise<Estacion[]>
-      })
+    listEstaciones()
       .then(data => {
         data.forEach(est => {
             const marker = L.marker([est.latitud, est.longitud]).addTo(mapRef.current!)

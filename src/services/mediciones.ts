@@ -1,39 +1,21 @@
 // src/services/mediciones.ts
-import type { Medicion, FilterParams } from '../types'
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'
-function authHeader(): Record<string,string> {
-  const token = localStorage.getItem('jwtToken')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
+import type { Medicion, FilterParams } from '../types';
+import apiClient from './apiClient';
 
 /** Obtiene la última medición de cada parámetro para un nodo */
 export async function getLastMedicionesByNodo(idNodo: number): Promise<Medicion[]> {
-  const res = await fetch(`${API_BASE}/api/mediciones/nodo/${idNodo}/last`, {
-    headers: authHeader()
-  })
-  if (!res.ok) throw new Error(`Error ${res.status}`)
-  return res.json()
+  const { data } = await apiClient.get<Medicion[]>(`/api/mediciones/nodo/${idNodo}/last`);
+  return data;
 }
 
 /** Filtra las mediciones con cuerpo JSON */
 export async function filterMediciones(params: FilterParams): Promise<Medicion[]> {
-  const res = await fetch(`${API_BASE}/api/mediciones/filter`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...authHeader()
-    },
-    body: JSON.stringify(params)
-  })
-  if (!res.ok) throw new Error(`Error ${res.status}`)
-  return res.json()
+  const { data } = await apiClient.post<Medicion[]>(`/api/mediciones/filter`, params);
+  return data;
 }
-/**Filtra todo */
+
+/** Obtiene todas las mediciones de un nodo */
 export async function getAllMedicionesByNodo(idNodo: number): Promise<Medicion[]> {
-  const res = await fetch(`${API_BASE}/api/mediciones/nodo/${idNodo}`, {
-    headers: authHeader()
-  })
-  if (!res.ok) throw new Error(`Error ${res.status}`)
-  return res.json()
+  const { data } = await apiClient.get<Medicion[]>(`/api/mediciones/nodo/${idNodo}`);
+  return data;
 }
