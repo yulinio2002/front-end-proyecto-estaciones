@@ -52,3 +52,15 @@ export default tseslint.config({
   },
 })
 ```
+
+## Deployment
+
+1. Copy `.env.example` to `.env` and adjust `VITE_API_BASE_URL`.
+2. Build the project:
+   ```bash
+   npm run build
+   ```
+3. To containerize, build the Docker image:
+   ```bash
+   docker build -t estaciones-app .
+   ```
