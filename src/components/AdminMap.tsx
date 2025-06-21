@@ -43,7 +43,7 @@ const Admin: React.FC = () => {
         >
           Usuarios
         </button>
-        <button
+        {/* <button
           onClick={() => setActiveTab('alertas')}
           className={`pb-2 text-sm font-medium ${
             activeTab === 'alertas'
@@ -53,7 +53,7 @@ const Admin: React.FC = () => {
           type="button"
         >
           Alertas
-        </button>
+        </button> */}
         <button
           onClick={() => setActiveTab('estaciones')}
           className={`pb-2 text-sm font-medium ${
