@@ -1,12 +1,6 @@
 // src/services/parametros.ts
 import type { Parametro } from '../types'
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'
-
-function authHeader(): Record<string, string> {
-  const token = localStorage.getItem('jwtToken')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
+import { API_BASE, authHeader } from './api'
 
 /**
  * Obtiene todos los parámetros

@@ -1,15 +1,6 @@
 // src/services/personas.ts
 import type { Usuario } from '../types'
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081'
-
-/**
- * Devuelve el header de autorización con el JWT si existe
- */
-function authHeader(): Record<string, string> {
-  const token = localStorage.getItem('jwtToken')
-  return token ? { Authorization: `Bearer ${token}` } : {}
-}
+import { API_BASE, authHeader } from './api'
 
 /**
  * Obtiene el listado de usuarios (personas) paginadas
