@@ -75,8 +75,8 @@ const SignupForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold text-center mb-6">Registro</h2>
+    <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-xl shadow-lg border">
+      <h2 className="text-3xl font-semibold text-center mb-6 text-primary">Registro</h2>
 
       {error && (
         <div className="mb-4 text-red-700 bg-red-100 px-4 py-2 rounded">
@@ -102,7 +102,7 @@ const SignupForm: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -118,7 +118,7 @@ const SignupForm: React.FC = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -134,7 +134,7 @@ const SignupForm: React.FC = () => {
             value={formData.rol}
             onChange={handleChange}
             min={0}
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -150,7 +150,7 @@ const SignupForm: React.FC = () => {
             value={formData.dni}
             onChange={handleChange}
             required
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -166,7 +166,7 @@ const SignupForm: React.FC = () => {
             value={formData.nombre}
             onChange={handleChange}
             required
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -182,7 +182,7 @@ const SignupForm: React.FC = () => {
             value={formData.apellidos}
             onChange={handleChange}
             required
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -198,7 +198,7 @@ const SignupForm: React.FC = () => {
             value={formData.celular}
             onChange={handleChange}
             required
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
@@ -212,7 +212,7 @@ const SignupForm: React.FC = () => {
             name="sexo"
             value={formData.sexo}
             onChange={handleChange}
-            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="M">M</option>
             <option value="F">F</option>
@@ -223,9 +223,7 @@ const SignupForm: React.FC = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-2 rounded text-white ${
-            loading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
-          } transition`}
+          className={`btn-primary w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
           {loading ? 'Registrando...' : 'Registrarse'}
         </button>
@@ -234,7 +232,7 @@ const SignupForm: React.FC = () => {
           <div className="text-center mt-4">
             <a
               href="/"
-              className="text-blue-600 hover:underline font-medium"
+              className="text-primary hover:underline font-medium"
             >
               Ir a Login
             </a>

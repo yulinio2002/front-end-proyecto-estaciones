@@ -79,7 +79,7 @@ const NodosTab: React.FC = () => {
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <h4 className="text-xl font-semibold">Gestión de Nodos</h4>
-        <button onClick={openAdd} className="px-4 py-2 bg-blue-600 text-white rounded">
+        <button onClick={openAdd} className="btn-primary">
           Agregar Nodo
         </button>
       </div>
@@ -200,7 +200,7 @@ const NodosTab: React.FC = () => {
             </div>
             <div className="flex justify-end space-x-2">
               <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
-              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded">{editing ? 'Guardar' : 'Crear'}</button>
+              <button type="submit" className="btn-primary">{editing ? 'Guardar' : 'Crear'}</button>
             </div>
           </form>
         </Modal>

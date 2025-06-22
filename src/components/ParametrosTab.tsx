@@ -81,7 +81,7 @@ const ParametrosTab: React.FC = () => {
         <h4 className="text-xl font-semibold">Gestión de Parámetros</h4>
         <button
           onClick={handleAdd}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="btn-primary"
         >
           Agregar Parámetro
         </button>
@@ -166,7 +166,7 @@ const ParametrosTab: React.FC = () => {
             </div>
             <div className="flex justify-end pt-4 space-x-2">
               <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
-              <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">{editing ? 'Guardar' : 'Crear'}</button>
+              <button type="submit" className="btn-primary">{editing ? 'Guardar' : 'Crear'}</button>
             </div>
           </form>
         </Modal>

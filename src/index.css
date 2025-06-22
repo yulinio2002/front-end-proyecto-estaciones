@@ -1,12 +1,17 @@
-/* @import "tailwindcss";
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
 
 html, body, #root {
   height: 100%;
   margin: 0;
-} */
-@import "tailwindcss";
-html, body, #root {
-  height: 100%;
-  margin: 0;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition;
+  }
+  .btn-secondary {
+    @apply bg-secondary text-white px-4 py-2 rounded hover:bg-secondary-dark transition;
+  }
 }

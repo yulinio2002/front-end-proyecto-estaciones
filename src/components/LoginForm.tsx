@@ -57,8 +57,8 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold text-center mb-6">Iniciar Sesión</h2>
+        <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-xl shadow-lg border">
+            <h2 className="text-3xl font-semibold text-center mb-6 text-primary">Iniciar Sesión</h2>
 
             {error && (
                 <div className="mb-4 text-red-700 bg-red-100 px-4 py-2 rounded">
@@ -79,7 +79,7 @@ const LoginForm: React.FC = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>
 
@@ -95,7 +95,7 @@ const LoginForm: React.FC = () => {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                 </div>
 
@@ -103,9 +103,7 @@ const LoginForm: React.FC = () => {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full py-2 rounded text-white ${
-                        loading ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
-                    } transition`}
+                    className={`btn-primary w-full ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     {loading ? 'Ingresando...' : 'Ingresar'}
                 </button>
@@ -113,7 +111,7 @@ const LoginForm: React.FC = () => {
                 <button
                     type="button"
                     onClick={handleRegister}
-                    className="w-full py-2 rounded text-blue-700 border border-blue-600 mt-2 hover:bg-blue-50 transition"
+                    className="btn-secondary w-full mt-2"
                 >
                     Registrarse
                 </button>
