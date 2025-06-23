@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { listNodos } from '../services/nodos';
+import { listEstaciones } from '../services/estaciones';
 import { useNavigate } from 'react-router-dom';
 import type { Estacion } from '../types'
 // interface Estacion {
@@ -9,7 +10,6 @@ import type { Estacion } from '../types'
 
 const Sidebar: React.FC = () => {
   const [estaciones, setEstaciones] = useState<Estacion[]>([]);
-  const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
 
   const handleVerDatos = async (estacion: Estacion) => {
@@ -31,25 +31,16 @@ const Sidebar: React.FC = () => {
   }
 
   useEffect(() => {
-    fetch('http://localhost:8081/api/estaciones', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        if (res.status === 401) {
-          localStorage.removeItem('jwtToken');
-          window.location.href = '/';
-          throw new Error('No autorizado');
-        }
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json() as Promise<Estacion[]>;
-      })
-      .then(data => setEstaciones(data))
+    listEstaciones()
+      .then(setEstaciones)
       .catch(err => {
-        console.error('Error al cargar estaciones:', err);
-      });
-  }, [token]);
+        console.error('Error al cargar estaciones:', err)
+        if (err.response?.status === 401) {
+          localStorage.removeItem('jwtToken')
+          window.location.href = '/'
+        }
+      })
+  }, [])
 
   return (
     <div className="w-52 bg-gray-100 p-4 flex flex-col justify-between">

@@ -1,6 +1,7 @@
 // src/components/SignupForm.tsx
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
+import { register } from '../api';
 
 interface SignupData {
   email: string;
@@ -49,39 +50,7 @@ const SignupForm: React.FC = () => {
     setLoading(true);
 
     try {
-      const resp = await fetch('http://localhost:8081/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (!resp.ok) {
-        let errorMessage = 'Error en el registro';
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        let errorBody: any = null;
-        let isJson = false;
-        try {
-          errorBody = await resp.clone().json();
-          isJson = true;
-        } catch {
-          errorBody = await resp.text();
-        }
-        if (isJson && errorBody) {
-          if (typeof errorBody.message === 'string') {
-        errorMessage = errorBody.message;
-          } else if (typeof errorBody === 'object') {
-        // Concatenar todos los mensajes de validación del backend
-        errorMessage = Object.values(errorBody)
-          .map((msg) => (Array.isArray(msg) ? msg.join(', ') : msg))
-          .join(' | ');
-          }
-        } else if (!isJson && typeof errorBody === 'string') {
-          errorMessage = errorBody || errorMessage;
-        }
-        throw new Error(errorMessage);
-      }
+      await register(formData);
       window.scrollTo({ top: 0, behavior: "smooth" });
       setSuccess('Usuario registrado correctamente');
 

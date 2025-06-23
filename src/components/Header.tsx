@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCurrentUser } from '../api';
 
 const Header: React.FC = () => {
   const [nombre, setNombre] = useState<string>('');
@@ -8,20 +9,13 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem('jwtToken');
-      if (!token) return;
       try {
-        const res = await fetch('http://localhost:8081/auth/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setNombre(data.persona.nombre|| 'Usuario');
-        }
+        const data = await getCurrentUser()
+        setNombre(data.persona.nombre || 'Usuario')
       } catch (error) {
-        setNombre('Usuario');
+        setNombre('Usuario')
       }
-    };
+    }
     fetchUser();
   }, []);
 
