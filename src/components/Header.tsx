@@ -39,7 +39,7 @@ const Header: React.FC = () => {
       </div>
       <div className="text-right">
         <div>{nombre}</div>
-        <button onClick={handleLogout} className="text-blue-500">Cerrar sesión</button>
+        <button onClick={handleLogout} className="">Cerrar sesión</button>
       </div>
     </header>
   );

@@ -7,7 +7,7 @@ import StationsTab from './StationsTab';
 import ParametrosTab from './ParametrosTab';
 import NodosTab from './NodosTab';
 import MapView from './MapView';
-import type { Estacion } from '../types';
+//import type { Estacion } from '../types';
 
 type TabKey = 'usuarios' | 'alertas' | 'estaciones'| 'parametros'| 'nodos';
 

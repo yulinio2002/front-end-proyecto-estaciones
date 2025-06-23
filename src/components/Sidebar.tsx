@@ -37,7 +37,7 @@ const Sidebar: React.FC = () => {
         console.error('Error al cargar estaciones:', err)
         if (err.response?.status === 401) {
           localStorage.removeItem('jwtToken')
-          window.location.href = '/'
+          navigate('/')
         }
       })
   }, [])
@@ -49,7 +49,7 @@ const Sidebar: React.FC = () => {
           <div className="mb-2" key={est.nombre}>
             <button
               onClick={() => handleVerDatos(est)}
-              className="text-decoration-none"
+              className="w-full flex items-center justify-center bg-white rounded-md border border-gray-300 px-1 py-2 shadow-sm hover:bg-gray-200 transition text-gray-800"
             >
               {est.nombre}
             </button>
@@ -57,7 +57,15 @@ const Sidebar: React.FC = () => {
         ))}
       </div>
       <div>
-        <a href="/" className="text-decoration-none">Cerrar Sesión</a>
+        <button
+          onClick={() => {
+            localStorage.removeItem('jwtToken');
+            navigate('/');
+          }}
+          className="text-decoration-none px-2 py-2 rounded transition-colors hover:bg-gray-300 block text-center w-full"
+        >
+          Cerrar Sesión
+        </button>
       </div>
     </div>
   );
