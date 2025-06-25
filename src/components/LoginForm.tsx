@@ -47,7 +47,7 @@ const LoginForm: React.FC = () => {
             navigate('/usuarioSesion1');
         }
         } catch (err: any) {
-            setError(err.message);
+            setError('Contraseña o email incorrectos');
         } finally {
             setLoading(false);
         }
