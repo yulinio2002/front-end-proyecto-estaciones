@@ -51,11 +51,11 @@ const ControlsPanel: React.FC<ControlsPanelProps> = ({
           onChange={(e) => setVariable(e.target.value)}
           className="border rounded p-2 w-48"
         > 
-          <option>Todas</option>
-          <option>Presión (hPa)</option>
-          <option>Temperatura (°C)</option>
-          <option>Radiacion (W/m²)</option>
-          <option>Humedad (%)</option>
+          <option value="Todas">Todas</option>
+          <option value="Presión (hPa)">Presión (hPa)</option>
+          <option value="Temperatura (°C)">Temperatura (°C)</option>
+          <option value="Radiación (W/m²)">Radiación (W/m²)</option>
+          <option value="Humedad (%)">Humedad (%)</option>
         </select>
       </div>
       <div>
