@@ -73,14 +73,14 @@ const exportarCSV = () => {
     radiacion: '-',
     humedad: '-'
   })
-  const [variable, setVariable] = React.useState<string>('Presión (hPa)')
+  const [variable, setVariable] = React.useState<string>('Todas')
   const [desde, setDesde] = React.useState<string>('')
   const [hasta, setHasta] = React.useState<string>('')
   const [tipo, setTipo] = React.useState<'line'|'bar'>('line')
   const [distrito, setDistrito] = React.useState<string>('Desconocido')
   const [parametros, setParametros] = React.useState<Parametro[]>([])
   const [chartData, setChartData] = React.useState<Medicion[]>([])
-  const [historicalData, setHistoricalData] = React.useState<Medicion[]>([])
+  // const [setHistoricalData] = React.useState<Medicion[]>([])
 
   // Extraigo nombre y nodo de la URL
   const params = new URLSearchParams(window.location.search)
@@ -104,42 +104,74 @@ const exportarCSV = () => {
     setDistrito(nombre)
   }, [nombre])
 
-  // Cada 5s traigo la última medición
+  //Carga solo una vez los datos del nodo para
   React.useEffect(() => {
-    if (idNodo == null) return
-    let mounted = true
+  if (idNodo == null) return;
 
-    async function fetchLast() {
-      try {
-        const meds = await getLastMedicionesByNodo(idNodo as number)
-        if (!mounted) return
+  async function fetchAllData() {
+    try {
+      const data = await getAllMedicionesByNodo(idNodo as number);
+      setChartData(data);
+    } catch (err) {
+      console.error('Error al cargar mediciones al inicio:', err);
+    }
+  }
 
-        // Busca los valores por nombre de parámetro traído del backend
-        const getVal = (label: string) =>
-          meds.find(m => {
-            const param = parametros.find(p => p.id === m.parametro)
-            return param && param.nombre === variableMap[label]
-          })?.valor?.toFixed(1) ?? '-'
+  fetchAllData();
+}, [idNodo]);
 
-        setSensorValues({
-          presion: getVal('Presión (hPa)'),
-          temperatura: getVal('Temperatura (°C)'),
-          radiacion: getVal('Radiación (W/m²)'),
-          humedad: getVal('Humedad (%)')
-        })
-      } catch (err) {
-        console.error(err)
-        
+  // Cada 5s traigo la última medición
+
+  React.useEffect(() => {
+  if (idNodo == null || parametros.length === 0) return
+
+  let mounted = true
+
+  async function fetchLast() {
+  try {
+    const meds = await getLastMedicionesByNodo(idNodo as number)
+    if (!mounted) return
+
+    // Agrupa por parámetro y elige la última medición (por fecha)
+    const latestByParametro: Record<number, Medicion> = {}
+
+    for (const med of meds) {
+      const current = latestByParametro[med.parametro]
+      if (!current || new Date(med.fecha) > new Date(current.fecha)) {
+        latestByParametro[med.parametro] = med
       }
     }
 
-    fetchLast()
-    const interval = setInterval(fetchLast, 5000)
-    return () => {
-      mounted = false
-      clearInterval(interval)
+    const getVal = (paramName: string) => {
+      const param = parametros.find(p =>
+        p.nombre.trim().toUpperCase() === variableMap[paramName].trim().toUpperCase()
+      )
+      if (!param) return '-'
+
+      const med = latestByParametro[param.id]
+      return med?.valor?.toFixed(1) ?? '-'
     }
-  }, [idNodo, parametros])
+
+    setSensorValues({
+      presion: getVal('Presión (hPa)'),
+      temperatura: getVal('Temperatura (°C)'),
+      radiacion: getVal('Radiación (W/m²)'),
+      humedad: getVal('Humedad (%)')
+    })
+  } catch (err) {
+    console.error('Error al traer últimas mediciones:', err)
+  }
+}
+
+
+  fetchLast()
+  const interval = setInterval(fetchLast, 5000)
+
+  return () => {
+    mounted = false
+    clearInterval(interval)
+  }
+}, [idNodo, parametros])
 
   // Handler de filtro que sirve tanto para el gráfico como datos históricos
   const handleFilter = async (idParametro: number, fechaInicio?: string, fechaFin?: string) => {
@@ -153,7 +185,7 @@ const exportarCSV = () => {
         fechaFin
       })
       setChartData(data)
-      setHistoricalData(data)
+      // setHistoricalData(data)
     } catch (err) {
       console.error(err)
       alert('Error al filtrar mediciones')
@@ -201,7 +233,7 @@ const exportarCSV = () => {
               try {
                 const data = await getAllMedicionesByNodo(idNodo)
                 setChartData(data)
-                setHistoricalData(data)
+                // setHistoricalData(data)
               } catch (err) {
                 alert('Error al traer todas las mediciones')
               }
@@ -212,7 +244,8 @@ const exportarCSV = () => {
             //   variable.toLowerCase().includes(p.nombre.toLowerCase())
             // )
             const nombreParam = variableMap[variable]
-            const param = parametros.find(p => p.nombre === nombreParam)
+            const param = parametros.find( p => p.nombre.trim().toUpperCase() === nombreParam.trim().toUpperCase()
+            )
             if (!param) {
               alert('No se encontró el parámetro seleccionado')
               return
