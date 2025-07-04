@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Medicion } from '../types';
+import type { Medicion } from '../interfaces';
 
 interface HistoricalDataProps {
   data: Medicion[];

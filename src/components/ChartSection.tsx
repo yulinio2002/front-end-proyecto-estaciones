@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
-import type { Medicion, Parametro } from '../types';
+import type { Medicion, Parametro } from '../interfaces';
 
 interface ChartSectionProps {
   tipo: 'line' | 'bar'

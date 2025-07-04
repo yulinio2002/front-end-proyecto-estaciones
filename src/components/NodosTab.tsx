@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
-import type { Estacion ,Nodo, NodoPayload } from '../types'
+import type { Estacion ,Nodo, NodoPayload } from '../interfaces'
 import { listNodos, createNodo, updateNodo, deleteNodo } from '../services/nodos'
 import { listEstaciones } from '../services/estaciones'
 const NodosTab: React.FC = () => {

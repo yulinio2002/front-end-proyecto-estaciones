@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser } from '../api';
+import { getCurrentUser } from '../services/api';
+import { useAuth } from './AuthContext';
 
 const Header: React.FC = () => {
   const [nombre, setNombre] = useState<string>('');
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
 
   useEffect(() => {
@@ -23,9 +25,8 @@ const Header: React.FC = () => {
   //   localStorage.removeItem('jwtToken');
   //   window.location.href = '/'; // o la ruta de login
   // };
-   const handleLogout = () => {
-    localStorage.removeItem('jwtToken');
-    // reemplaza la ruta en el historial
+  const handleLogout = () => {
+    setToken(null);
     navigate('/', { replace: true });
   };
 

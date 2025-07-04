@@ -4,15 +4,16 @@ import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import Map from '../components/MapView';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthContext';
 
 const MonitoringSystem: React.FC = () => {
   const navigate = useNavigate();
+  const { token } = useAuth();
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
     if (!token) {
       navigate('/', { replace: true });
     }
-  }, [navigate]);
+  }, [navigate, token]);
   return (
     <div className="h-screen flex flex-col">
       <Header />

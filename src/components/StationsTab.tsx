@@ -1,6 +1,6 @@
 // src/components/StationsTab.tsx
 import React, { useState, useEffect } from 'react'
-import type { Estacion } from '../types'
+import type { Estacion } from '../interfaces'
 import Modal from './Modal'
 import {
   listEstaciones,

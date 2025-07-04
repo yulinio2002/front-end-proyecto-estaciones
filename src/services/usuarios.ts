@@ -1,5 +1,5 @@
-import { api } from '../api'
-import type { Usuario } from '../types'
+import { api } from './api'
+import type { Usuario } from '../interfaces'
 
 export async function listUsuarios(): Promise<Usuario[]> {
   const { data } = await api.get('/api/personas')

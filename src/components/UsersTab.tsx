@@ -1,7 +1,7 @@
 // src/components/UsersTab.tsx
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
-import type { Usuario } from '../types'
+import type { Usuario } from '../interfaces'
 import {
   listUsuarios,
   updateUsuario,
