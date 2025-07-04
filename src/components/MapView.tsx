@@ -5,7 +5,8 @@ import { listNodos } from '../services/nodos'
 import { listEstaciones } from '../services/estaciones'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
-import type { Estacion } from '../types'
+import type { Estacion } from '../interfaces'
+import { useAuth } from './AuthContext'
 
 // Esto corrige la ruta de los iconos por defecto de Leaflet
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png'
@@ -20,11 +21,11 @@ L.Icon.Default.mergeOptions({
 
 const Map: React.FC = () => {
   const navigate = useNavigate()
+  const { token, setToken } = useAuth()
   const mapRef = useRef<L.Map | null>(null)
 
   useEffect(() => {
     // 1) Protejo la ruta: si no hay token, vuelvo al login
-    const token = localStorage.getItem('jwtToken')
     if (!token) {
       navigate('/', { replace: true })
       return
@@ -71,7 +72,7 @@ const Map: React.FC = () => {
       .catch(err => {
         console.error('Error al cargar estaciones:', err)
         if (err.response?.status === 401) {
-          localStorage.removeItem('jwtToken')
+          setToken(null)
           navigate('/', { replace: true })
         }
       })

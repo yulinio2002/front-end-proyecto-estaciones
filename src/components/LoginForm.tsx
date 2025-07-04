@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCurrentUser, login } from '../api';
+import { getCurrentUser, login } from '../services/api';
+import { useAuth } from './AuthContext'
 interface LoginData {
     email: string;
     password: string;
@@ -16,6 +17,7 @@ const LoginForm: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate(); // para redirigir
+    const { setToken } = useAuth()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -35,8 +37,8 @@ const LoginForm: React.FC = () => {
             const token: string = data.token;
             if (!token) throw new Error('No se recibió token del servidor');
 
-            // 1. Guardar el token en localStorage (o sessionStorage según tu preferencia)
-            localStorage.setItem('jwtToken', token);
+            // Guardar token a través del contexto
+            setToken(token)
 
             // 2. Redirigir a la ruta privada (por ejemplo "/dashboard")
             // navigate('/usuarioSesion1');

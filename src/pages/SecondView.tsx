@@ -14,7 +14,7 @@ import {
   filterMediciones,
   getAllMedicionesByNodo 
 } from '../services/mediciones'
-import type { Medicion, Parametro } from '../types'
+import type { Medicion, Parametro } from '../interfaces'
 
 type SensorValues = {
   presion: string

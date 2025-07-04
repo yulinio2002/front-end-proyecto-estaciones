@@ -1,6 +1,6 @@
 // src/services/estaciones.ts
-import { api } from '../api'
-import type { Estacion } from '../types'
+import { api } from './api'
+import type { Estacion } from '../interfaces'
 
 export async function listEstaciones(): Promise<Estacion[]> {
   const { data } = await api.get('/api/estaciones')

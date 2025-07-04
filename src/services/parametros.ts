@@ -1,5 +1,5 @@
-import { api } from '../api'
-import type { Parametro } from '../types'
+import { api } from './api'
+import type { Parametro } from '../interfaces'
 
 export async function listParametros(): Promise<Parametro[]> {
   const { data } = await api.get('/api/parametros')

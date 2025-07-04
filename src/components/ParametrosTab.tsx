@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from './Modal'
-import type { Parametro } from '../types'
+import type { Parametro } from '../interfaces'
 import {
   listParametros,
   createParametro,

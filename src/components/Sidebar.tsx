@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { listNodos } from '../services/nodos';
 import { listEstaciones } from '../services/estaciones';
 import { useNavigate } from 'react-router-dom';
-import type { Estacion } from '../types'
+import type { Estacion } from '../interfaces'
+import { useAuth } from './AuthContext'
 // interface Estacion {
 //   nombre: string;
 //   // agrega otros campos si los necesitas
@@ -11,6 +12,7 @@ import type { Estacion } from '../types'
 const Sidebar: React.FC = () => {
   const [estaciones, setEstaciones] = useState<Estacion[]>([]);
   const navigate = useNavigate();
+  const { setToken } = useAuth();
 
   const handleVerDatos = async (estacion: Estacion) => {
     try {
@@ -36,7 +38,7 @@ const Sidebar: React.FC = () => {
       .catch(err => {
         console.error('Error al cargar estaciones:', err)
         if (err.response?.status === 401) {
-          localStorage.removeItem('jwtToken')
+          setToken(null)
           navigate('/')
         }
       })
@@ -59,7 +61,7 @@ const Sidebar: React.FC = () => {
       <div>
         <button
           onClick={() => {
-            localStorage.removeItem('jwtToken');
+            setToken(null);
             navigate('/');
           }}
           className="text-decoration-none px-2 py-2 rounded transition-colors hover:bg-gray-300 block text-center w-full"

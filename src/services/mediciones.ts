@@ -1,5 +1,5 @@
-import { api } from '../api'
-import type { Medicion, FilterParams } from '../types'
+import { api } from './api'
+import type { Medicion, FilterParams } from '../interfaces'
 
 export async function getLastMedicionesByNodo(idNodo: number): Promise<Medicion[]> {
   const { data } = await api.get(`/api/mediciones/nodo/${idNodo}/last`)

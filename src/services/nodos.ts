@@ -1,5 +1,5 @@
-import { api } from '../api'
-import type { Nodo, NodoPayload } from '../types'
+import { api } from './api'
+import type { Nodo, NodoPayload } from '../interfaces'
 
 export async function listNodos(): Promise<Nodo[]> {
   const { data } = await api.get('/api/nodos')
